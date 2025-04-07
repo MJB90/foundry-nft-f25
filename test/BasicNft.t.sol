@@ -8,6 +8,9 @@ import {DeployBasicNft} from "../script/DeployBasicNft.s.sol";
 contract BasicNftTest is Test {
     DeployBasicNft public deployer;
     BasicNft public basicNft;
+    address public USER = makeAddr("user");
+    string public constant PUG_URI =
+        "ipfs://bafybeig37ioir76s7mg5oobetncojcm3c3hxasyd4rvid4jqhy4gkaheg4/?filename=0-PUG.json";
 
     function setUp() public {
         deployer = new DeployBasicNft();
@@ -19,5 +22,13 @@ contract BasicNftTest is Test {
         string memory actualName = basicNft.name();
         assertEq(expectedName, actualName);
         assert(keccak256(abi.encodePacked(expectedName)) == keccak256(abi.encodePacked(actualName)));
+    }
+
+    function testCanMintAndHaveABalance() public {
+        vm.prank(USER);
+        basicNft.mintNFT(PUG_URI);
+
+        assert(basicNft.balanceOf(USER) == 1);
+        assertEq(PUG_URI, basicNft.tokenURI(0));
     }
 }
