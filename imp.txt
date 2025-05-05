@@ -1,0 +1,5 @@
+Section 2:
+    Video 25: Verifying a transaction in metamask
+        -- Check the contract address
+        -- Check the function selector using cast on the input data from metamask
+        -- Decode the calldata and verify the parameters
